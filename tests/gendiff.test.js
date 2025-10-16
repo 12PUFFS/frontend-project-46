@@ -1,8 +1,10 @@
 const { test, expect } = require('@jest/globals')
 const path = require('path')
-const genDiff = require('../src/index.js') // УБРАТЬ .default
+const genDiff = require('../src/index.js')
 
-const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename)
+const getFixturePath = (filename) => {
+  return path.join(__dirname, '..', '__fixtures__', filename)
+}
 
 // Тесты для плоских структур
 test('compare flat JSON files', () => {

@@ -13,7 +13,7 @@ const getFileContent = (filepath) => {
     const absolutePath = path.resolve(process.cwd(), filepath)
     const content = fs.readFileSync(absolutePath, 'utf-8')
     return content
-  } catch (error) {
+  } catch (readError) {
     throw new Error(`Cannot read file: ${filepath}`)
   }
 }
@@ -32,7 +32,7 @@ const parseFile = (filepath) => {
     default:
       throw new Error(`Unsupported file format: ${extension}`)
     }
-  } catch (error) {
+  } catch (parseError) {
     throw new Error(`Cannot parse file: ${filepath}`)
   }
 }
