@@ -2,7 +2,11 @@ install:
 	npm install
 
 lint:
-	npx eslint .
+	@if command -v npx >/dev/null 2>&1; then \
+		npx eslint .; \
+	else \
+		./node_modules/.bin/eslint .; \
+	fi
 
 test:
 	npx jest
