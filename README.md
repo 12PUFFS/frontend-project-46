@@ -37,5 +37,13 @@ make lint       # Run linter
 make test       # Run tests
 make watch      # Run tests in watch mode
 
+## Formats
+
+### Stylish (default)
+```bash
+gendiff file1.json file2.json
+# or
+gendiff -f stylish file1.json file2.json
+
 ##Example
 https://asciinema.org/a/o8eZQVOHGcsURnVfyfDwMB5gH

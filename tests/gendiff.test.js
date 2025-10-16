@@ -4,109 +4,43 @@ const genDiff = require('../src/index.js').default;
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
-// Существующие тесты для плоских структур...
+// Существующие тесты...
 
-// Новые тесты для вложенных структур
-test('compare nested JSON files', () => {
+// Тесты для plain формата
+test('compare nested JSON files with plain format', () => {
   const file1 = getFixturePath('nested1.json');
   const file2 = getFixturePath('nested2.json');
   
-  const expected = `{
-    common: {
-        follow: false
-      setting1: Value 1
-      - setting2: 200
-      - setting3: true
-      + setting3: null
-      + setting4: blah blah
-      + setting5: {
-            key5: value5
-        }
-      setting6: {
-            doge: {
-              - wow: 
-              + wow: so much
-            }
-          key: value
-          + ops: vops
-        }
-    }
-    group1: {
-      - baz: bas
-      + baz: bars
-        foo: bar
-      - nest: {
-            key: value
-        }
-      + nest: str
-    }
-  - group2: {
-        abc: 12345
-      deep: {
-            id: 45
-        }
-    }
-  + group3: {
-        fee: 100500
-      deep: {
-            id: {
-                number: 45
-            }
-        }
-    }
-}`;
+  const expected = `Property 'common.follow' was added with value: false
+Property 'common.setting2' was removed
+Property 'common.setting3' was updated. From true to null
+Property 'common.setting4' was added with value: 'blah blah'
+Property 'common.setting5' was added with value: [complex value]
+Property 'common.setting6.doge.wow' was updated. From '' to 'so much'
+Property 'common.setting6.ops' was added with value: 'vops'
+Property 'group1.baz' was updated. From 'bas' to 'bars'
+Property 'group1.nest' was updated. From [complex value] to 'str'
+Property 'group2' was removed
+Property 'group3' was added with value: [complex value]`;
 
-  expect(genDiff(file1, file2)).toBe(expected);
+  expect(genDiff(file1, file2, 'plain')).toBe(expected);
 });
 
-test('compare nested YAML files', () => {
+test('compare nested YAML files with plain format', () => {
   const file1 = getFixturePath('nested1.yml');
   const file2 = getFixturePath('nested2.yml');
   
-  const expected = `{
-    common: {
-        follow: false
-      setting1: Value 1
-      - setting2: 200
-      - setting3: true
-      + setting3: null
-      + setting4: blah blah
-      + setting5: {
-            key5: value5
-        }
-      setting6: {
-            doge: {
-              - wow: 
-              + wow: so much
-            }
-          key: value
-          + ops: vops
-        }
-    }
-    group1: {
-      - baz: bas
-      + baz: bars
-        foo: bar
-      - nest: {
-            key: value
-        }
-      + nest: str
-    }
-  - group2: {
-        abc: 12345
-      deep: {
-            id: 45
-        }
-    }
-  + group3: {
-        fee: 100500
-      deep: {
-            id: {
-                number: 45
-            }
-        }
-    }
-}`;
+  const expected = `Property 'common.follow' was added with value: false
+Property 'common.setting2' was removed
+Property 'common.setting3' was updated. From true to null
+Property 'common.setting4' was added with value: 'blah blah'
+Property 'common.setting5' was added with value: [complex value]
+Property 'common.setting6.doge.wow' was updated. From '' to 'so much'
+Property 'common.setting6.ops' was added with value: 'vops'
+Property 'group1.baz' was updated. From 'bas' to 'bars'
+Property 'group1.nest' was updated. From [complex value] to 'str'
+Property 'group2' was removed
+Property 'group3' was added with value: [complex value]`;
 
-  expect(genDiff(file1, file2)).toBe(expected);
+  expect(genDiff(file1, file2, 'plain')).toBe(expected);
 });
