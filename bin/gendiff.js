@@ -6,13 +6,15 @@ import genDiff from '../src/index.js';
 program
   .name('gendiff')
   .description('Compares two configuration files and shows a difference.')
-  .version('1.0.0')
+  .version('1.0.0', '-V, --version', 'output the version number')
+  .option('-f, --format <type>', 'output format')
   .argument('<filepath1>')
   .argument('<filepath2>')
-  .option('-f, --format <type>', 'output format')
   .action((filepath1, filepath2) => {
-    const diff = genDiff(filepath1, filepath2);
+    const options = program.opts();
+    const diff = genDiff(filepath1, filepath2, options.format);
     console.log(diff);
-  });
+  })
+  .helpOption('-h, --help', 'display help for command');
 
 program.parse();
