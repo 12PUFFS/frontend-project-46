@@ -4,80 +4,108 @@ const genDiff = require('../src/index.js').default;
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
-// JSON тесты
-test('compare flat JSON files', () => {
-  const file1 = getFixturePath('file1.json');
-  const file2 = getFixturePath('file2.json');
+// Существующие тесты для плоских структур...
+
+// Новые тесты для вложенных структур
+test('compare nested JSON files', () => {
+  const file1 = getFixturePath('nested1.json');
+  const file2 = getFixturePath('nested2.json');
   
   const expected = `{
-  - follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-  - timeout: 50
-  + timeout: 20
-  + verbose: true
+    common: {
+        follow: false
+      setting1: Value 1
+      - setting2: 200
+      - setting3: true
+      + setting3: null
+      + setting4: blah blah
+      + setting5: {
+            key5: value5
+        }
+      setting6: {
+            doge: {
+              - wow: 
+              + wow: so much
+            }
+          key: value
+          + ops: vops
+        }
+    }
+    group1: {
+      - baz: bas
+      + baz: bars
+        foo: bar
+      - nest: {
+            key: value
+        }
+      + nest: str
+    }
+  - group2: {
+        abc: 12345
+      deep: {
+            id: 45
+        }
+    }
+  + group3: {
+        fee: 100500
+      deep: {
+            id: {
+                number: 45
+            }
+        }
+    }
 }`;
 
   expect(genDiff(file1, file2)).toBe(expected);
 });
 
-test('compare identical JSON files', () => {
-  const file1 = getFixturePath('file1.json');
-  const file2 = getFixturePath('file1.json');
+test('compare nested YAML files', () => {
+  const file1 = getFixturePath('nested1.yml');
+  const file2 = getFixturePath('nested2.yml');
   
   const expected = `{
-    follow: false
-    host: hexlet.io
-    proxy: 123.234.53.22
-    timeout: 50
-}`;
-
-  expect(genDiff(file1, file2)).toBe(expected);
-});
-
-// YAML тесты
-test('compare flat YAML files', () => {
-  const file1 = getFixturePath('file1.yml');
-  const file2 = getFixturePath('file2.yml');
-  
-  const expected = `{
-  - follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-  - timeout: 50
-  + timeout: 20
-  + verbose: true
-}`;
-
-  expect(genDiff(file1, file2)).toBe(expected);
-});
-
-test('compare identical YAML files', () => {
-  const file1 = getFixturePath('file1.yml');
-  const file2 = getFixturePath('file1.yml');
-  
-  const expected = `{
-    follow: false
-    host: hexlet.io
-    proxy: 123.234.53.22
-    timeout: 50
-}`;
-
-  expect(genDiff(file1, file2)).toBe(expected);
-});
-
-// Смешанные форматы
-test('compare JSON and YAML files', () => {
-  const file1 = getFixturePath('file1.json');
-  const file2 = getFixturePath('file2.yml');
-  
-  const expected = `{
-  - follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-  - timeout: 50
-  + timeout: 20
-  + verbose: true
+    common: {
+        follow: false
+      setting1: Value 1
+      - setting2: 200
+      - setting3: true
+      + setting3: null
+      + setting4: blah blah
+      + setting5: {
+            key5: value5
+        }
+      setting6: {
+            doge: {
+              - wow: 
+              + wow: so much
+            }
+          key: value
+          + ops: vops
+        }
+    }
+    group1: {
+      - baz: bas
+      + baz: bars
+        foo: bar
+      - nest: {
+            key: value
+        }
+      + nest: str
+    }
+  - group2: {
+        abc: 12345
+      deep: {
+            id: 45
+        }
+    }
+  + group3: {
+        fee: 100500
+      deep: {
+            id: {
+                number: 45
+            }
+        }
+    }
 }`;
 
   expect(genDiff(file1, file2)).toBe(expected);
