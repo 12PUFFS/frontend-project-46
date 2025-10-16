@@ -47,3 +47,4 @@ gendiff -f stylish file1.json file2.json
 
 ##Example
 https://asciinema.org/a/o8eZQVOHGcsURnVfyfDwMB5gH
+https://asciinema.org/a/RyZikbmEzanCgM43esx5LLO4I
