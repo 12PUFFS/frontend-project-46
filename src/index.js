@@ -1,3 +1,3 @@
-import genDiff from './gendiff.js';
+const genDiff = require('./gendiff.js')
 
-export default genDiff;
+module.exports = genDiff

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.83% </span>
+                <span class="strong">96.15% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>23/24</span>
+                <span class='fraction'>25/26</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.45% </span>
+                <span class="strong">95.83% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>21/22</span>
+                <span class='fraction'>23/24</span>
             </div>
         
             
@@ -109,22 +109,23 @@
 <a name='L44'></a><a href='#L44'>44</a>
 <a name='L45'></a><a href='#L45'>45</a>
 <a name='L46'></a><a href='#L46'>46</a>
-<a name='L47'></a><a href='#L47'>47</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">55x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -135,11 +136,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-yes">76x</span>
 <span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -150,65 +151,67 @@
 <span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">56x</span>
-<span class="cline-any cline-yes">54x</span>
-<span class="cline-any cline-yes">52x</span>
+<span class="cline-any cline-yes">62x</span>
+<span class="cline-any cline-yes">60x</span>
+<span class="cline-any cline-yes">58x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import _ from 'lodash';
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const _ = require('lodash')
 &nbsp;
 const formatStylish = (diff, depth = 1) =&gt; {
-  const indent = ' '.repeat(4 * depth - 2);
-  const bracketIndent = ' '.repeat(4 * (depth - 1));
-  
+  const indent = ' '.repeat(4 * depth - 2)
+  const bracketIndent = ' '.repeat(4 * (depth - 1))
+&nbsp;
   const lines = diff.map((node) =&gt; {
     switch (node.type) {
-      case 'added':
-        return `${indent}+ ${node.key}: ${formatValue(node.value, depth + 1)}`;
-      case 'removed':
-        return `${indent}- ${node.key}: ${formatValue(node.value, depth + 1)}`;
-      case 'unchanged':
-        return `${indent}  ${node.key}: ${formatValue(node.value, depth + 1)}`;
-      case 'changed':
-        return [
-          `${indent}- ${node.key}: ${formatValue(node.oldValue, depth + 1)}`,
-          `${indent}+ ${node.key}: ${formatValue(node.newValue, depth + 1)}`
-        ].join('\n');
-      case 'nested':
-        return `${indent}  ${node.key}: ${formatStylish(node.children, depth + 1)}`;
-<span class="branch-5 cbranch-no" title="branch not covered" >      default:</span>
-<span class="cstat-no" title="statement not covered" >        return '';</span>
+    case 'added':
+      return `${indent}+ ${node.key}: ${formatValue(node.value, depth + 1)}`
+    case 'removed':
+      return `${indent}- ${node.key}: ${formatValue(node.value, depth + 1)}`
+    case 'unchanged':
+      return `${indent}  ${node.key}: ${formatValue(node.value, depth + 1)}`
+    case 'changed':
+      return [
+        `${indent}- ${node.key}: ${formatValue(node.oldValue, depth + 1)}`,
+        `${indent}+ ${node.key}: ${formatValue(node.newValue, depth + 1)}`,
+      ].join('\n')
+    case 'nested':
+      return `${indent}  ${node.key}: ${formatStylish(node.children, depth + 1)}`
+<span class="branch-5 cbranch-no" title="branch not covered" >    default:</span>
+<span class="cstat-no" title="statement not covered" >      return ''</span>
     }
-  });
-  
-  return ['{', ...lines, `${bracketIndent}}`].join('\n');
-};
+  })
+&nbsp;
+  return ['{', ...lines, `${bracketIndent}}`].join('\n')
+}
 &nbsp;
 const formatValue = (value, depth) =&gt; {
   if (_.isPlainObject(value)) {
-    const indent = ' '.repeat(4 * depth - 2);
-    const bracketIndent = ' '.repeat(4 * (depth - 1));
-    
-    const lines = Object.entries(value).map(([key, val]) =&gt; {
-      return `${indent}  ${key}: ${formatValue(val, depth + 1)}`;
-    });
-    
-    return ['{', ...lines, `${bracketIndent}}`].join('\n');
-  }
-  
-  if (value === null) return 'null';
-  if (value === '') return '';
-  return String(value);
-};
+    const indent = ' '.repeat(4 * depth - 2)
+    const bracketIndent = ' '.repeat(4 * (depth - 1))
 &nbsp;
-export default formatStylish;</pre></td></tr></table></pre>
+    const lines = Object.entries(value).map(([key, val]) =&gt; {
+      return `${indent}  ${key}: ${formatValue(val, depth + 1)}`
+    })
+&nbsp;
+    return ['{', ...lines, `${bracketIndent}}`].join('\n')
+  }
+&nbsp;
+  if (value === null) return 'null'
+  if (value === '') return ''
+  return String(value)
+}
+&nbsp;
+module.exports = formatStylish
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-10-16T22:02:38.523Z
+                at 2025-10-16T22:47:10.489Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

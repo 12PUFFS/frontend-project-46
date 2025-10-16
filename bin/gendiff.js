@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { program } from 'commander';
-import genDiff from '../src/index.js';
+const { program } = require('commander')
+const genDiff = require('../src/index.js')
 
 program
   .name('gendiff')
@@ -11,9 +11,9 @@ program
   .argument('<filepath1>')
   .argument('<filepath2>')
   .action((filepath1, filepath2) => {
-    const options = program.opts();
-    const diff = genDiff(filepath1, filepath2, options.format);
-    console.log(diff);
-  });
+    const options = program.opts()
+    const diff = genDiff(filepath1, filepath2, options.format)
+    console.log(diff)
+  })
 
-program.parse();
+program.parse()

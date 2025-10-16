@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/14</span>
+                <span class='fraction'>16/16</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>14/14</span>
+                <span class='fraction'>16/16</span>
             </div>
         
             
@@ -97,32 +97,33 @@
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">27x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">96x</span>
-<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">106x</span>
+<span class="cline-any cline-yes">106x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">96x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">72x</span>
-<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">106x</span>
+<span class="cline-any cline-yes">26x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">56x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">80x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">60x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -131,48 +132,50 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import _ from 'lodash';
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const _ = require('lodash')
 &nbsp;
 const buildTree = (data1, data2) =&gt; {
-  const keys = _.sortBy(_.union(Object.keys(data1), Object.keys(data2)));
-  
-  return keys.map((key) =&gt; {
-    const value1 = data1[key];
-    const value2 = data2[key];
-    
-    if (!_.has(data1, key)) {
-      return { key, value: value2, type: 'added' };
-    }
-    
-    if (!_.has(data2, key)) {
-      return { key, value: value1, type: 'removed' };
-    }
-    
-    if (_.isPlainObject(value1) &amp;&amp; _.isPlainObject(value2)) {
-      return { key, children: buildTree(value1, value2), type: 'nested' };
-    }
-    
-    if (_.isEqual(value1, value2)) {
-      return { key, value: value1, type: 'unchanged' };
-    }
-    
-    return { 
-      key, 
-      oldValue: value1, 
-      newValue: value2, 
-      type: 'changed' 
-    };
-  });
-};
+  const keys = _.sortBy(_.union(Object.keys(data1), Object.keys(data2)))
 &nbsp;
-export default buildTree;</pre></td></tr></table></pre>
+  return keys.map((key) =&gt; {
+    const value1 = data1[key]
+    const value2 = data2[key]
+&nbsp;
+    if (!_.has(data1, key)) {
+      return { key, value: value2, type: 'added' }
+    }
+&nbsp;
+    if (!_.has(data2, key)) {
+      return { key, value: value1, type: 'removed' }
+    }
+&nbsp;
+    if (_.isPlainObject(value1) &amp;&amp; _.isPlainObject(value2)) {
+      return { key, children: buildTree(value1, value2), type: 'nested' }
+    }
+&nbsp;
+    if (_.isEqual(value1, value2)) {
+      return { key, value: value1, type: 'unchanged' }
+    }
+&nbsp;
+    return {
+      key,
+      oldValue: value1,
+      newValue: value2,
+      type: 'changed',
+    }
+  })
+}
+&nbsp;
+module.exports = buildTree
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-10-16T22:02:38.523Z
+                at 2025-10-16T22:47:10.489Z
             </div>
         <script src="../prettify.js"></script>
         <script>
