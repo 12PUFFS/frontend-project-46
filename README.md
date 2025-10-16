@@ -5,8 +5,8 @@
 
 
 # Gendiff
-
 [![CI](https://github.com/your-username/frontend-project-46/actions/workflows/ci.yml/badge.svg)](https://github.com/your-username/frontend-project-46/actions/workflows/ci.yml)
+
 [![Test Coverage](https://api.codeclimate.com/v1/badges/your-repo-id/test_coverage)](https://codeclimate.com/github/your-username/frontend-project-46/test_coverage)
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=12PUFFS_frontend-project-46&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=12PUFFS_frontend-project-46)
