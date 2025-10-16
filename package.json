@@ -14,6 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/12PUFFS/frontend-project-46.git"
   },
+  "keywords": ["diff", "comparison", "configuration"],
   "author": "",
   "license": "ISC",
   "bugs": {
