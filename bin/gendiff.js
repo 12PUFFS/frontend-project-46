@@ -19,6 +19,6 @@ program
       console.error(`Error: ${error.message}`)
       process.exit(1)
     }
-  })  // ← фигурная скобка должна быть на этой строке
+  })
 
 program.parse()
