@@ -2,7 +2,7 @@ const { test, expect } = require('@jest/globals')
 const { join } = require('path')
 const genDiff = require('../src/index')
 
-const getFixturePath = (filename) => join(__dirname, '..', '__fixtures__', filename)
+const getFixturePath = filename => join(__dirname, '..', '__fixtures__', filename)
 
 test('genDiff flat JSON files', () => {
   const filepath1 = getFixturePath('file1.json')
