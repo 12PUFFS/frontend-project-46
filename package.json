@@ -1,28 +1,19 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "type": "module",
-  "description": "[![Actions Status](https://github.com/12PUFFS/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/12PUFFS/frontend-project-46/actions)",
+  "description": "Compares two configuration files and shows a difference",
   "main": "src/index.js",
+  "type": "module",
   "bin": {
-    "gendiff": "bin/gendiff.js"
+    "gendiff": "./bin/gendiff.js"
   },
   "scripts": {
-    "test": "vitest run --reporter=verbose",
-    "lint": "eslint .",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "ci": "npm run lint && npm test"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/12PUFFS/frontend-project-46.git"
   },
-  "keywords": [
-    "diff",
-    "comparison",
-    "configuration"
-  ],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -30,17 +21,10 @@
   },
   "homepage": "https://github.com/12PUFFS/frontend-project-46#readme",
   "dependencies": {
-    "commander": "^11.1.0",
-    "js-yaml": "^4.1.0",
-    "lodash": "^4.17.21"
+    "commander": "^14.0.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.0",
-    "@babel/preset-env": "^7.23.0",
-    "eslint": "^8.52.0",
-    "vitest": "^1.0.0"
-  },
-  "engines": {
-    "node": ">=20"
+    "eslint": "^9.37.0",
+    "prettier": "^3.6.2"
   }
 }
