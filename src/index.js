@@ -54,7 +54,7 @@ const buildTree = (data1, data2) => {
 const formatValue = (value, depth = 0) => {
   if (!_.isObject(value) || _.isArray(value)) {
     if (value === null) return 'null';
-    if (value === '') return "''";
+    if (value === '') return '';
     return value;
   }
 
