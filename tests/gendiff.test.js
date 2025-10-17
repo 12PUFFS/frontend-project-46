@@ -1,45 +1,57 @@
-const { test, expect } = require('@jest/globals')
-const { join } = require('path')
-const genDiff = require('../src/index')
+import { test, expect } from 'vitest';
+import { join, dirname } from 'path';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import genDiff from '../src/index.js';
 
-const getFixturePath = filename => join(__dirname, '..', '__fixtures__', filename)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-test('genDiff flat JSON files', () => {
-  const filepath1 = getFixturePath('file1.json')
-  const filepath2 = getFixturePath('file2.json')
+const getFixturePath = (filename) => join(__dirname, '..', '__fixtures__', filename);
+const readFile = (filename) => readFileSync(getFixturePath(filename), 'utf-8');
 
-  const result = genDiff(filepath1, filepath2)
+// Функция для нормализации символов новой строки
+const normalizeLineEndings = (str) => str.replace(/\r\n/g, '\n').trim();
 
-  expect(result).toContain('  - follow: false')
-  expect(result).toContain('  host: hexlet.io')
-  expect(result).toContain('  - proxy: 123.234.53.22')
-  expect(result).toContain('  - timeout: 50')
-  expect(result).toContain('  + timeout: 20')
-  expect(result).toContain('  + verbose: true')
-})
+test('gendiff json', () => {
+  const filepath1 = getFixturePath('file1.json');
+  const filepath2 = getFixturePath('file2.json');
+  const expected = normalizeLineEndings(readFile('expected_stylish.txt'));
 
-test('genDiff with identical JSON files', () => {
-  const filepath1 = getFixturePath('file1.json')
-  const filepath2 = getFixturePath('file1.json')
+  expect(normalizeLineEndings(genDiff(filepath1, filepath2))).toEqual(expected);
+  expect(normalizeLineEndings(genDiff(filepath1, filepath2, 'stylish'))).toEqual(expected);
+});
 
-  const result = genDiff(filepath1, filepath2)
+test('gendiff yml', () => {
+  const filepath1 = getFixturePath('file1.yml');
+  const filepath2 = getFixturePath('file2.yml');
+  const expected = normalizeLineEndings(readFile('expected_stylish.txt'));
 
-  expect(result).toContain('  follow: false')
-  expect(result).toContain('  host: hexlet.io')
-  expect(result).toContain('  proxy: 123.234.53.22')
-  expect(result).toContain('  timeout: 50')
-})
+  expect(normalizeLineEndings(genDiff(filepath1, filepath2))).toEqual(expected);
+  expect(normalizeLineEndings(genDiff(filepath1, filepath2, 'stylish'))).toEqual(expected);
+});
 
-test('genDiff flat YAML files', () => {
-  const filepath1 = getFixturePath('file1.yml')
-  const filepath2 = getFixturePath('file2.yml')
+test('gendiff plain format', () => {
+  const filepath1 = getFixturePath('file1.json');
+  const filepath2 = getFixturePath('file2.json');
+  const expected = normalizeLineEndings(readFile('expected_plain.txt'));
 
-  const result = genDiff(filepath1, filepath2)
+  expect(normalizeLineEndings(genDiff(filepath1, filepath2, 'plain'))).toEqual(expected);
+});
 
-  expect(result).toContain('  - follow: false')
-  expect(result).toContain('  host: hexlet.io')
-  expect(result).toContain('  - proxy: 123.234.53.22')
-  expect(result).toContain('  - timeout: 50')
-  expect(result).toContain('  + timeout: 20')
-  expect(result).toContain('  + verbose: true')
-})
+test('gendiff json format', () => {
+  const filepath1 = getFixturePath('file1.json');
+  const filepath2 = getFixturePath('file2.json');
+  const result = genDiff(filepath1, filepath2, 'json');
+  
+  expect(() => JSON.parse(result)).not.toThrow();
+});
+
+test('gendiff nested files', () => {
+  const filepath1 = getFixturePath('nested1.json');
+  const filepath2 = getFixturePath('nested2.json');
+  const expected = normalizeLineEndings(readFile('expected_nested.txt'));
+
+  expect(normalizeLineEndings(genDiff(filepath1, filepath2))).toEqual(expected);
+  expect(normalizeLineEndings(genDiff(filepath1, filepath2, 'stylish'))).toEqual(expected);
+});
