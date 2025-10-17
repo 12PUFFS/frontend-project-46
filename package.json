@@ -42,9 +42,6 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    },
     "collectCoverageFrom": [
       "src/**/*.js"
     ],

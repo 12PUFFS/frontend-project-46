@@ -1,18 +1,14 @@
 install:
 	npm install
 
+publish:
+	npm publish --dry-run
+
 lint:
-	@if command -v npx >/dev/null 2>&1; then \
-		npx eslint .; \
-	else \
-		./node_modules/.bin/eslint .; \
-	fi
+	npx eslint .
 
 test:
-	npx jest
+	npm test
 
 test-coverage:
-	npx jest --coverage
-
-watch:
-	npx jest --watch
+	npm test -- --coverage --coverageProvider=v8

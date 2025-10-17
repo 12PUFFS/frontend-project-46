@@ -1,47 +1,31 @@
-const _ = require('lodash')
+import _ from 'lodash';
 
-const formatStylish = (diff, depth = 1) => {
-  const indent = ' '.repeat(4 * depth - 2)
-  const bracketIndent = ' '.repeat(4 * (depth - 1))
-
-  const lines = diff.map((node) => {
-    switch (node.type) {
-    case 'added':
-      return `${indent}+ ${node.key}: ${formatValue(node.value, depth + 1)}`
-    case 'removed':
-      return `${indent}- ${node.key}: ${formatValue(node.value, depth + 1)}`
-    case 'unchanged':
-      return `${indent}  ${node.key}: ${formatValue(node.value, depth + 1)}`
-    case 'changed':
-      return [
-        `${indent}- ${node.key}: ${formatValue(node.oldValue, depth + 1)}`,
-        `${indent}+ ${node.key}: ${formatValue(node.newValue, depth + 1)}`,
-      ].join('\n')
-    case 'nested':
-      return `${indent}  ${node.key}: ${formatStylish(node.children, depth + 1)}`
-    default:
-      return ''
-    }
-  })
-
-  return ['{', ...lines, `${bracketIndent}}`].join('\n')
-}
-
-const formatValue = (value, depth) => {
-  if (_.isPlainObject(value)) {
-    const indent = ' '.repeat(4 * depth - 2)
-    const bracketIndent = ' '.repeat(4 * (depth - 1))
-
-    const lines = Object.entries(value).map(([key, val]) => {
-      return `${indent}  ${key}: ${formatValue(val, depth + 1)}`
-    })
-
-    return ['{', ...lines, `${bracketIndent}}`].join('\n')
+const formatValue = (value) => {
+  if (_.isObject(value) && !_.isArray(value)) {
+    return '[complex value]';
   }
+  return value;
+};
 
-  if (value === null) return 'null'
-  if (value === '') return ''
-  return String(value)
-}
+const formatStylish = (tree) => {
+  const lines = tree.map((node) => {
+    const { key, type } = node;
+    
+    switch (type) {
+      case 'added':
+        return `  + ${key}: ${formatValue(node.value)}`;
+      case 'removed':
+        return `  - ${key}: ${formatValue(node.value)}`;
+      case 'updated':
+        return `  - ${key}: ${formatValue(node.oldValue)}\n  + ${key}: ${formatValue(node.value)}`;
+      case 'unchanged':
+        return `    ${key}: ${formatValue(node.value)}`;
+      default:
+        throw new Error(`Unknown node type: ${type}`);
+    }
+  });
+  
+  return `{\n${lines.join('\n')}\n}`;
+};
 
-module.exports = formatStylish
+export default formatStylish;
