@@ -52,22 +52,22 @@ const buildTree = (data1, data2) => {
 }
 
 const formatValue = (value, depth = 0) => {
-  if (!_.isObject(value) || _.isArray(value)) {
-    if (value === null) return 'null'
-    if (value === '') return ''
-    return value
+    if (!_.isObject(value) || _.isArray(value)) {
+      if (value === null) return 'null'
+      if (value === '') return ''
+      return value
+    }
+  
+    const indent = '    '.repeat(depth)
+    const bracketIndent = '    '.repeat(depth - 1)
+    const entries = Object.entries(value)
+    const lines = entries.map(([key, val]) => {
+      const formattedValue = formatValue(val, depth + 1)
+      return `${indent}    ${key}: ${formattedValue}`  // ← ДОБАВЬ 4 пробела здесь!
+    })
+  
+    return `{\n${lines.join('\n')}\n${bracketIndent}}`
   }
-
-  const indent = '    '.repeat(depth)
-  const bracketIndent = '    '.repeat(depth - 1)
-  const entries = Object.entries(value)
-  const lines = entries.map(([key, val]) => {
-    const formattedValue = formatValue(val, depth + 1)
-    return `${indent}${key}: ${formattedValue}`
-  })
-
-  return `{\n${lines.join('\n')}\n${bracketIndent}}`
-}
 
 const formatStylish = (tree, depth = 0) => {
     const indent = '    '.repeat(depth)
