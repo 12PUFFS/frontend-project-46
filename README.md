@@ -39,6 +39,40 @@ make watch      # Run tests in watch mode
 
 ## Formats
 
+# Gendiff - Difference Generator
+
+[![Actions Status](https://github.com/12PUFFS/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/12PUFFS/frontend-project-46/actions)
+
+A CLI tool for finding differences between configuration files (JSON, YAML).
+
+## Installation
+
+```bash
+git clone https://github.com/12PUFFS/frontend-project-46
+cd frontend-project-46
+npm install
+npm link
+Usage
+bash
+gendiff filepath1.json filepath2.json
+gendiff filepath1.yml filepath2.yml
+gendiff --format stylish file1.json file2.json
+Example
+bash
+$ gendiff __fixtures__/file1.json __fixtures__/file2.json
+{
+  - follow: false
+    host: hexlet.io
+  - proxy: 123.234.53.22
+  - timeout: 50
+  + timeout: 20
+  + verbose: true
+}
+
+## Demo
+
+[![asciicast](https://asciinema.org/a/nVNSJy2Nid00BaqSmbT2b9w67)](https://asciinema.org/a/nVNSJy2Nid00BaqSmbT2b9w67)
+
 ### Stylish (default)
 ```bash
 gendiff file1.json file2.json
