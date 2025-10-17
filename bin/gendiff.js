@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-const { Command } = require('commander');
-const genDiff = require('../src/index.js');
+const { Command } = require('commander')
+const genDiff = require('../src/index')
 
-const program = new Command();
+const program = new Command()
 
 program
   .name('gendiff')
@@ -13,12 +13,12 @@ program
   .option('-f, --format <type>', 'output format', 'stylish')
   .action((filepath1, filepath2, options) => {
     try {
-      const result = genDiff(filepath1, filepath2, options.format);
-      console.log(result);
+      const result = genDiff(filepath1, filepath2, options.format)
+      console.log(result)
     } catch (error) {
-      console.error(`Error: ${error.message}`);
-      process.exit(1);
+      console.error(`Error: ${error.message}`)
+      process.exit(1)
     }
-  });
+  })
 
-program.parse();
+program.parse()

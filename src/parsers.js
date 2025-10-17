@@ -1,15 +1,15 @@
-const yaml = require('js-yaml');
+const yaml = require('js-yaml')
 
 const parse = (data, format) => {
   switch (format) {
-    case 'json':
-      return JSON.parse(data);
-    case 'yml':
-    case 'yaml':
-      return yaml.load(data);
-    default:
-      throw new Error(`Unsupported format: ${format}`);
+  case 'json':
+    return JSON.parse(data)
+  case 'yml':
+  case 'yaml':
+    return yaml.load(data)
+  default:
+    throw new Error(`Unsupported format: ${format}`)
   }
-};
+}
 
-module.exports = parse;
+module.exports = parse
