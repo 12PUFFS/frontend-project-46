@@ -52,47 +52,46 @@ const buildTree = (data1, data2) => {
 }
 
 const formatValue = (value, depth = 0) => {
-    if (!_.isObject(value) || _.isArray(value)) {
-      if (value === null) return 'null'
-      if (value === '') return ''
-      return value
-    }
-  
-    const indent = '    '.repeat(depth)
-    const bracketIndent = '    '.repeat(depth - 1)
-    const entries = Object.entries(value)
-    const lines = entries.map(([key, val]) => {
-      const formattedValue = formatValue(val, depth + 1)
-      return `${indent}    ${key}: ${formattedValue}`  // ← ДОБАВЬ 4 пробела здесь!
-    })
-  
-    return `{\n${lines.join('\n')}\n${bracketIndent}}`
+  if (!_.isObject(value) || _.isArray(value)) {
+    if (value === null) return 'null'
+    if (value === '') return ''
+    return String(value)
   }
 
+  const indent = '    '.repeat(depth)
+  const bracketIndent = '    '.repeat(depth - 1 > 0 ? depth - 1 : 0)
+  const entries = Object.entries(value)
+  const lines = entries.map(([key, val]) => {
+    const formattedValue = formatValue(val, depth + 1)
+    return `${indent}    ${key}: ${formattedValue}`
+  })
+
+  return `{\n${lines.join('\n')}\n${bracketIndent}}`
+}
+
 const formatStylish = (tree, depth = 0) => {
-    const indent = '    '.repeat(depth)
-    const lines = tree.map((node) => {
-      const { key, type } = node
-      const valueIndent = '    '.repeat(depth + 1)
-  
-      switch (type) {
-        case 'added':
-          return `${indent}  + ${key}: ${formatValue(node.value, depth + 1)}`
-        case 'removed':
-          return `${indent}  - ${key}: ${formatValue(node.value, depth + 1)}`
-        case 'updated':
-          return `${indent}  - ${key}: ${formatValue(node.oldValue, depth + 1)}\n${indent}  + ${key}: ${formatValue(node.value, depth + 1)}`
-        case 'unchanged':
-          return `${valueIndent}${key}: ${formatValue(node.value, depth + 1)}`
-        case 'nested':
-          return `${valueIndent}${key}: ${formatStylish(node.children, depth + 1)}`
-        default:
-          throw new Error(`Unknown node type: ${type}`)
-      }
-    })
-  
-    return `{\n${lines.join('\n')}\n${indent}}`
-  }
+  const indent = '    '.repeat(depth)
+  const lines = tree.map((node) => {
+    const { key, type } = node
+
+    switch (type) {
+      case 'added':
+        return `${indent}  + ${key}: ${formatValue(node.value, depth + 1)}`
+      case 'removed':
+        return `${indent}  - ${key}: ${formatValue(node.value, depth + 1)}`
+      case 'updated':
+        return `${indent}  - ${key}: ${formatValue(node.oldValue, depth + 1)}\n${indent}  + ${key}: ${formatValue(node.value, depth + 1)}`
+      case 'unchanged':
+        return `${indent}    ${key}: ${formatValue(node.value, depth + 1)}`
+      case 'nested':
+        return `${indent}    ${key}: ${formatStylish(node.children, depth + 1)}`
+      default:
+        throw new Error(`Unknown node type: ${type}`)
+    }
+  })
+
+  return `{\n${lines.join('\n')}\n${indent}}`
+}
 
 const formatPlain = (tree, path = '') => {
   const lines = tree.flatMap((node) => {
@@ -100,18 +99,18 @@ const formatPlain = (tree, path = '') => {
     const currentPath = path ? `${path}.${key}` : key
 
     switch (type) {
-    case 'added':
-      return `Property '${currentPath}' was added with value: ${formatValueForPlain(node.value)}`
-    case 'removed':
-      return `Property '${currentPath}' was removed`
-    case 'updated':
-      return `Property '${currentPath}' was updated. From ${formatValueForPlain(node.oldValue)} to ${formatValueForPlain(node.value)}`
-    case 'nested':
-      return formatPlain(node.children, currentPath)
-    case 'unchanged':
-      return []
-    default:
-      throw new Error(`Unknown node type: ${type}`)
+      case 'added':
+        return `Property '${currentPath}' was added with value: ${formatValueForPlain(node.value)}`
+      case 'removed':
+        return `Property '${currentPath}' was removed`
+      case 'updated':
+        return `Property '${currentPath}' was updated. From ${formatValueForPlain(node.oldValue)} to ${formatValueForPlain(node.value)}`
+      case 'nested':
+        return formatPlain(node.children, currentPath)
+      case 'unchanged':
+        return []
+      default:
+        throw new Error(`Unknown node type: ${type}`)
     }
   })
 
@@ -119,13 +118,16 @@ const formatPlain = (tree, path = '') => {
 }
 
 const formatValueForPlain = (value) => {
-  if (_.isObject(value) && !_.isArray(value)) {
+  if (_.isObject(value) && !_.isArray(value) && value !== null) {
     return '[complex value]'
   }
   if (typeof value === 'string') {
     return `'${value}'`
   }
-  return value
+  if (value === null) {
+    return 'null'
+  }
+  return String(value)
 }
 
 const formatJson = (tree) => {
@@ -145,14 +147,14 @@ const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
   const tree = buildTree(data1, data2)
 
   switch (formatName) {
-  case 'stylish':
-    return formatStylish(tree)
-  case 'plain':
-    return formatPlain(tree)
-  case 'json':
-    return formatJson(tree)
-  default:
-    throw new Error(`Unsupported format: ${formatName}`)
+    case 'stylish':
+      return formatStylish(tree)
+    case 'plain':
+      return formatPlain(tree)
+    case 'json':
+      return formatJson(tree)
+    default:
+      throw new Error(`Unsupported format: ${formatName}`)
   }
 }
 
