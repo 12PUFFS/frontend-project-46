@@ -128,6 +128,10 @@ const formatValueForPlain = (value) => {
   return value
 }
 
+const formatJson = (tree) => {
+  return JSON.stringify(tree, null, 2)
+}
+
 const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
   const content1 = readFileSync(filepath1, 'utf-8')
   const content2 = readFileSync(filepath2, 'utf-8')
@@ -145,6 +149,8 @@ const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
       return formatStylish(tree)
     case 'plain':
       return formatPlain(tree)
+    case 'json':
+      return formatJson(tree)
     default:
       throw new Error(`Unsupported format: ${formatName}`)
   }
