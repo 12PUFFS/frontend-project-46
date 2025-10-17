@@ -11,15 +11,37 @@ const buildTree = (data1, data2) => {
     const value2 = data2[key];
     
     if (!_.has(data1, key)) {
-      return { key, value: value2, type: 'added' };
+      return { 
+        key, 
+        value: value2, 
+        type: 'added',
+        children: _.isObject(value2) && !_.isArray(value2) ? buildTree({}, value2) : []
+      };
     }
     
     if (!_.has(data2, key)) {
-      return { key, value: value1, type: 'removed' };
+      return { 
+        key, 
+        value: value1, 
+        type: 'removed',
+        children: _.isObject(value1) && !_.isArray(value1) ? buildTree(value1, {}) : []
+      };
+    }
+    
+    if (_.isObject(value1) && _.isObject(value2) && !_.isArray(value1) && !_.isArray(value2)) {
+      return {
+        key,
+        type: 'nested',
+        children: buildTree(value1, value2)
+      };
     }
     
     if (_.isEqual(value1, value2)) {
-      return { key, value: value1, type: 'unchanged' };
+      return { 
+        key, 
+        value: value1, 
+        type: 'unchanged' 
+      };
     }
     
     return {
@@ -31,32 +53,44 @@ const buildTree = (data1, data2) => {
   });
 };
 
-const formatValue = (value) => {
-  if (_.isObject(value) && !_.isArray(value)) {
-    return '[complex value]';
+const formatValue = (value, depth = 0) => {
+  if (!_.isObject(value) || _.isArray(value)) {
+    return value;
   }
-  return value;
+  
+  const indent = '    '.repeat(depth);
+  const bracketIndent = '    '.repeat(depth - 1);
+  const lines = Object.entries(value).map(([key, val]) => {
+    const formattedValue = formatValue(val, depth + 1);
+    return `${indent}${key}: ${formattedValue}`;
+  });
+  
+  return `{\n${lines.join('\n')}\n${bracketIndent}}`;
 };
 
-const formatStylish = (tree) => {
+const formatStylish = (tree, depth = 1) => {
+  const indent = '    '.repeat(depth - 1);
   const lines = tree.map((node) => {
     const { key, type } = node;
+    const currentIndent = '    '.repeat(depth);
     
     switch (type) {
       case 'added':
-        return `  + ${key}: ${formatValue(node.value)}`;
+        return `${currentIndent.slice(0, -2)}+ ${key}: ${formatValue(node.value, depth + 1)}`;
       case 'removed':
-        return `  - ${key}: ${formatValue(node.value)}`;
+        return `${currentIndent.slice(0, -2)}- ${key}: ${formatValue(node.value, depth + 1)}`;
       case 'updated':
-        return `  - ${key}: ${formatValue(node.oldValue)}\n  + ${key}: ${formatValue(node.value)}`;
+        return `${currentIndent.slice(0, -2)}- ${key}: ${formatValue(node.oldValue, depth + 1)}\n${currentIndent.slice(0, -2)}+ ${key}: ${formatValue(node.value, depth + 1)}`;
       case 'unchanged':
-        return `    ${key}: ${formatValue(node.value)}`;
+        return `${currentIndent}${key}: ${formatValue(node.value, depth + 1)}`;
+      case 'nested':
+        return `${currentIndent}${key}: ${formatStylish(node.children, depth + 1)}`;
       default:
         throw new Error(`Unknown node type: ${type}`);
     }
   });
   
-  return `{\n${lines.join('\n')}\n}`;
+  return `{\n${lines.join('\n')}\n${indent}}`;
 };
 
 const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
