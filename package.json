@@ -1,14 +1,14 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
+  "type": "module",
   "description": "[![Actions Status](https://github.com/12PUFFS/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/12PUFFS/frontend-project-46/actions)",
   "main": "src/index.js",
-  "type": "module",
   "bin": {
     "gendiff": "bin/gendiff.js"
   },
   "scripts": {
-    "test": "vitest run",
+    "test": "vitest run --reporter=verbose",
     "lint": "eslint .",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
@@ -30,14 +30,17 @@
   },
   "homepage": "https://github.com/12PUFFS/frontend-project-46#readme",
   "dependencies": {
-    "commander": "^14.0.1",
+    "commander": "^11.1.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@babel/core": "^7.28.4",
-    "@babel/preset-env": "^7.28.3",
-    "eslint": "^8.57.1",
-    "vitest": "^3.2.4"
+    "@babel/core": "^7.23.0",
+    "@babel/preset-env": "^7.23.0",
+    "eslint": "^8.52.0",
+    "vitest": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

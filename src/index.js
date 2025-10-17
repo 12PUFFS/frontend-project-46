@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs';
 import { extname } from 'path';
 import _ from 'lodash';
-import parse from './parsers.js';
+import parse from './parsers.js';  // Убедитесь что есть .js
 
 const buildTree = (data1, data2) => {
   const keys = _.sortBy(_.union(_.keys(data1), _.keys(data2)));
