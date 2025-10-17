@@ -5,10 +5,13 @@ publish:
 	npm publish --dry-run
 
 lint:
-	npx eslint .
+	npm run lint
 
 test:
 	npm test
 
 test-coverage:
-	npm test -- --coverage --coverageProvider=v8
+	npm run test:coverage
+
+ci:
+	npm run ci
