@@ -21,7 +21,8 @@
   },
   "homepage": "https://github.com/12PUFFS/frontend-project-46#readme",
   "dependencies": {
-    "commander": "^14.0.1"
+    "commander": "^14.0.1",
+    "js-yaml": "^4.1.0"
   },
   "devDependencies": {
     "eslint": "^9.37.0",
