@@ -51,59 +51,62 @@ const buildTree = (obj1, obj2) => {
   });
 };
 
-const formatValue = (value, depth) => {
-  if (value === null) return 'null';
-  if (value === undefined) return 'undefined';
-  if (typeof value !== 'object') {
-    return String(value);
-  }
-  
-  const indent = '  '.repeat(depth * 2);
-  const bracketIndent = '  '.repeat(depth * 2 - 2);
-  
-  const entries = Object.entries(value);
-  if (entries.length === 0) {
-    return '{}';
-  }
-  
-  const lines = entries.map(([key, val]) => {
-    return `${indent}${key}: ${formatValue(val, depth + 1)}`;
-  });
-  
-  return ['{', ...lines, `${bracketIndent}}`].join('\n');
-};
 
-const formatStylish = (tree, depth = 1) => {
-  const indent = '  '.repeat(depth * 2 - 2);
-  const bracketIndent = '  '.repeat(depth * 2 - 2);
-  
-  const lines = tree.map((node) => {
-    const { key, type } = node;
-    
-    switch (type) {
-      case 'added':
-        return `${indent}+ ${key}: ${formatValue(node.value, depth)}`;
-      case 'deleted':
-        return `${indent}- ${key}: ${formatValue(node.value, depth)}`;
-      case 'unchanged':
-        return `${indent}  ${key}: ${formatValue(node.value, depth)}`;
-      case 'changed':
-        return [
-          `${indent}- ${key}: ${formatValue(node.oldValue, depth)}`,
-          `${indent}+ ${key}: ${formatValue(node.value, depth)}`,
-        ].join('\n');
-      case 'nested':
-        return `${indent}  ${key}: ${formatStylish(node.children, depth + 1)}`;
-      default:
-        throw new Error(`Unknown type: ${type}`);
+
+const formatValue = (value, depth) => {
+    if (value === null) return 'null';
+    if (value === undefined) return 'undefined';
+    if (typeof value !== 'object') {
+      return String(value);
     }
-  });
+    
+    const indent = '    '.repeat(depth);
+    const bracketIndent = '    '.repeat(depth - 1);
+    
+    const entries = Object.entries(value);
+    if (entries.length === 0) {
+      return '{}';
+    }
+    
+    const lines = entries.map(([key, val]) => {
+      return `${indent}${key}: ${formatValue(val, depth + 1)}`;
+    });
+    
+    return ['{', ...lines, `${bracketIndent}}`].join('\n');
+  };
   
-  if (depth === 1) {
-    return ['{', ...lines, '}'].join('\n');
-  }
-  return ['{', ...lines, `${bracketIndent}}`].join('\n');
-};
+  const formatStylish = (tree, depth = 1) => {
+    const indent = '    '.repeat(depth - 1);
+    const bracketIndent = '    '.repeat(depth - 1);
+    
+    const lines = tree.map((node) => {
+      const { key, type } = node;
+      const currentIndent = `${indent}  `;
+      
+      switch (type) {
+        case 'added':
+          return `${currentIndent}+ ${key}: ${formatValue(node.value, depth + 1)}`;
+        case 'deleted':
+          return `${currentIndent}- ${key}: ${formatValue(node.value, depth + 1)}`;
+        case 'unchanged':
+          return `${currentIndent}  ${key}: ${formatValue(node.value, depth + 1)}`;
+        case 'changed':
+          return [
+            `${currentIndent}- ${key}: ${formatValue(node.oldValue, depth + 1)}`,
+            `${currentIndent}+ ${key}: ${formatValue(node.value, depth + 1)}`,
+          ].join('\n');
+        case 'nested':
+          return `${currentIndent}  ${key}: ${formatStylish(node.children, depth + 1)}`;
+        default:
+          throw new Error(`Unknown type: ${type}`);
+      }
+    });
+    
+    if (depth === 1) {
+      return ['{', ...lines, '}'].join('\n');
+    }
+    return ['{', ...lines, `${bracketIndent}}`].join('\n');
+  };
 
 const formatPlain = (tree, path = '') => {
   const lines = tree.flatMap((node) => {
