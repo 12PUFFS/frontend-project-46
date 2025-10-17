@@ -12,13 +12,13 @@ program
   .argument('<filepath2>')
   .option('-f, --format <type>', 'output format', 'stylish')
   .action((filepath1, filepath2, options) => {
-    try {
-      const result = genDiff(filepath1, filepath2, options.format)
-      console.log(result)
-    } catch (error) {
-      console.error(`Error: ${error.message}`)
-      process.exit(1)
-    }
+  try {
+    const result = genDiff(filepath1, filepath2, options.format)
+    console.log(result)
+  } catch (error) {
+    console.error(`Error: ${error.message}`)
+    process.exit(1)
+  }
   })
 
 program.parse()
