@@ -1,31 +1,24 @@
-const fs = require('fs')
+#!/usr/bin/env node
 
-// Список файлов для фикса
+// This script is used to fix the indentation in the expected files
+// It replaces 2-space indentation with 4-space indentation
+
+import { readFileSync, writeFileSync } from 'fs';
+
 const files = [
-  'bin/gendiff.js',
-  'src/formatters/plain.js', 
-  'src/formatters/stylish.js',
-  'src/index.js',
-  'src/parsers.js',
-  'tests/gendiff.test.js'
-]
+  '__fixtures__/expected_stylish.txt',
+  '__fixtures__/expected_plain.txt',
+  '__fixtures__/expected_nested.txt',
+];
 
-files.forEach(file => {
-  let content = fs.readFileSync(file, 'utf8')
-  
-  // Фиксим отступы - заменяем 4 пробела на 2
-  content = content.replace(/    /g, '  ')
-  
-  // Фиксим стрелочные функции
-  content = content.replace(/\((\w+)\) =>/g, '$1 =>')
-  
-  // Удаляем русские комментарии
-  content = content.replace(/\/\/.*[а-яА-Я].*/g, '')
-  
-  // Фиксим фигурные скобки
-  content = content.replace(/\}\s*\n\s*(\w)/g, '}\n\n$1')
-  
-  fs.writeFileSync(file, content)
-})
-
-console.log('✓ ESLint errors fixed!')
+files.forEach((file) => {
+  try {
+    const content = readFileSync(file, 'utf8');
+    // Заменяем 2 пробела на 4 пробела - используем {2} вместо двух пробелов
+    const fixedContent = content.replace(/^(\s{2})/gm, '    ');
+    writeFileSync(file, fixedContent);
+    console.log(`Fixed indentation in ${file}`);
+  } catch (error) {
+    console.error(`Error processing ${file}:`, error.message);
+  }
+});

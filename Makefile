@@ -1,14 +1,20 @@
 install:
 	npm install
 
-publish:
-	npm publish --dry-run
+develop:
+	npm run develop
 
-lint:
-	@echo "✓ Linting completed successfully"
+build:
+	rm -rf dist
+	npm run build
 
 test:
 	npm test
 
-test-coverage:
-	npm test -- --coverage --coverageProvider=v8
+lint:
+	npx eslint .
+
+publish:
+	npm publish
+
+.PHONY: test
