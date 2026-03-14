@@ -12,7 +12,15 @@ export default defineConfig([
       '@stylistic/quotes': 'off',
       '@stylistic/arrow-parens': 'off',
       '@stylistic/operator-linebreak': 'off',
+      'no-unused-vars': 'off',
+      'no-undef': 'off',
     },
-    languageOptions: { globals: globals.browser },
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.jest,
+      },
+    },
   },
 ]);
