@@ -13,3 +13,5 @@
 [![Build](https://github.com/12PUFFS/frontend-project-46/actions/workflows/build.yml/badge.svg)](https://github.com/12PUFFS/frontend-project-46/actions/workflows/build.yml)
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=12PUFFS_frontend-project-46&metric=coverage)](https://sonarcloud.io/summary/new_code?id=12PUFFS_frontend-project-46)
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=12PUFFS_frontend-project-462&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=12PUFFS_frontend-project-46)
