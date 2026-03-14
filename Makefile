@@ -5,7 +5,7 @@ gendiff:
 	node bin/gendiff.js
 
 lint:
-	@echo "lint disabled"
+	@echo "Linting is disabled"
 
 test:
 	npm test
