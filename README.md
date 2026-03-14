@@ -4,4 +4,5 @@
 
 ## asciinema
 
-https://asciinema.org/a/9BLwX4zrtIRuyNuW
+- https://asciinema.org/a/9BLwX4zrtIRuyNuW
+- https://asciinema.org/a/c0ABb8vxxaKJD8en
