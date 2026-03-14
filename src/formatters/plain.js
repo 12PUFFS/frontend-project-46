@@ -15,16 +15,16 @@ const plain = (diff, path = '') => {
       const propertyPath = path ? `${path}.${node.key}` : node.key;
 
       switch (node.type) {
-        case 'added':
-          return `Property '${propertyPath}' was added with value: ${stringify(node.value)}`;
-        case 'removed':
-          return `Property '${propertyPath}' was removed`;
-        case 'changed':
-          return `Property '${propertyPath}' was updated. From ${stringify(node.oldValue)} to ${stringify(node.newValue)}`;
-        case 'nested':
-          return plain(node.children, propertyPath);
-        default:
-          throw new Error(`Unknown type: ${node.type}`);
+      case 'added':
+        return `Property '${propertyPath}' was added with value: ${stringify(node.value)}`;
+      case 'removed':
+        return `Property '${propertyPath}' was removed`;
+      case 'changed':
+        return `Property '${propertyPath}' was updated. From ${stringify(node.oldValue)} to ${stringify(node.newValue)}`;
+      case 'nested':
+        return plain(node.children, propertyPath);
+      default:
+        throw new Error(`Unknown type: ${node.type}`);
       }
     });
 
