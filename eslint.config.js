@@ -5,7 +5,6 @@ export default [
       ecmaVersion: 'latest',
       sourceType: 'module',
       globals: {
-        // Разрешаем всё
         console: 'readonly',
         process: 'readonly',
         __dirname: 'readonly',
@@ -20,7 +19,7 @@ export default [
       },
     },
     rules: {
-      // Отключаем ВСЕ стилистические правила
+      // Отключаем ВСЕ возможные правила
       semi: 'off',
       quotes: 'off',
       'arrow-parens': 'off',
@@ -32,8 +31,7 @@ export default [
       'eol-last': 'off',
       'no-multiple-empty-lines': 'off',
       'padded-blocks': 'off',
-
-      // Отключаем проблемные правила
+      'quote-props': 'off',
       'no-unused-vars': 'off',
       'no-undef': 'off',
       'no-console': 'off',
