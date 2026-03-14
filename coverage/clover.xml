@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1773494029166" clover="3.2.0">
+  <project timestamp="1773494029167" name="All files">
+    <metrics statements="31" coveredstatements="31" conditionals="26" coveredconditionals="21" methods="1" coveredmethods="1" elements="58" coveredelements="53" complexity="0" loc="31" ncloc="31" packages="1" files="1" classes="1"/>
+    <file name="index.js" path="/mnt/c/Users/GALYA/frontend-project-46/src/index.js">
+      <metrics statements="31" coveredstatements="31" conditionals="26" coveredconditionals="21" methods="1" coveredmethods="1"/>
+      <line num="6" count="2" type="stmt"/>
+      <line num="7" count="2" type="stmt"/>
+      <line num="9" count="2" type="stmt"/>
+      <line num="10" count="2" type="stmt"/>
+      <line num="15" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="16" count="1" type="stmt"/>
+      <line num="17" count="1" type="cond" truecount="2" falsecount="2"/>
+      <line num="18" count="1" type="stmt"/>
+      <line num="21" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="22" count="1" type="stmt"/>
+      <line num="23" count="1" type="cond" truecount="2" falsecount="2"/>
+      <line num="24" count="1" type="stmt"/>
+      <line num="27" count="2" type="stmt"/>
+      <line num="28" count="2" type="stmt"/>
+      <line num="30" count="2" type="stmt"/>
+      <line num="31" count="2" type="stmt"/>
+      <line num="32" count="2" type="stmt"/>
+      <line num="34" count="2" type="stmt"/>
+      <line num="36" count="2" type="stmt"/>
+      <line num="37" count="10" type="stmt"/>
+      <line num="38" count="10" type="stmt"/>
+      <line num="40" count="10" type="cond" truecount="4" falsecount="0"/>
+      <line num="41" count="4" type="stmt"/>
+      <line num="42" count="6" type="cond" truecount="4" falsecount="0"/>
+      <line num="43" count="2" type="stmt"/>
+      <line num="44" count="4" type="cond" truecount="3" falsecount="1"/>
+      <line num="45" count="4" type="cond" truecount="2" falsecount="0"/>
+      <line num="46" count="2" type="stmt"/>
+      <line num="47" count="2" type="stmt"/>
+      <line num="49" count="2" type="stmt"/>
+      <line num="54" count="2" type="stmt"/>
+    </file>
+  </project>
+</coverage>
