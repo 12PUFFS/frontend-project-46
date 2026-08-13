@@ -10,13 +10,14 @@ const __dirname = path.dirname(__filename);
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
 describe('gendiff', () => {
-  it('should compare two flat json files', () => {
-    const file1 = getFixturePath('file1.json');
-    const file2 = getFixturePath('file2.json');
+  describe('JSON files', () => {
+    it('should compare two flat json files', () => {
+      const file1 = getFixturePath('file1.json');
+      const file2 = getFixturePath('file2.json');
 
-    const result = genDiff(file1, file2);
+      const result = genDiff(file1, file2);
 
-    const expected = `{
+      const expected = `{
   - follow: false
     host: hexlet.io
   - proxy: 123.234.53.22
@@ -25,23 +26,79 @@ describe('gendiff', () => {
   + verbose: true
 }`;
 
-    expect(result).toBe(expected);
-  });
-
-  it('should handle identical files', () => {
-    const file1 = getFixturePath('file1.json');
-
-    const result = genDiff(file1, file1);
-
-    const data = JSON.parse(fs.readFileSync(file1, 'utf-8'));
-    const keys = Object.keys(data);
-
-    keys.forEach((key) => {
-      expect(result).toContain(`    ${key}: ${data[key]}`);
+      expect(result).toBe(expected);
     });
 
-    expect(result).not.toContain('  +');
-    expect(result).not.toContain('  -');
+    it('should handle identical json files', () => {
+      const file1 = getFixturePath('file1.json');
+
+      const result = genDiff(file1, file1);
+
+      const data = JSON.parse(fs.readFileSync(file1, 'utf-8'));
+      const keys = Object.keys(data);
+
+      keys.forEach((key) => {
+        expect(result).toContain(`    ${key}: ${data[key]}`);
+      });
+
+      expect(result).not.toContain('  +');
+      expect(result).not.toContain('  -');
+    });
+  });
+
+  describe('YAML files', () => {
+    it('should compare two flat yaml files', () => {
+      const file1 = getFixturePath('file1.yml');
+      const file2 = getFixturePath('file2.yml');
+
+      const result = genDiff(file1, file2);
+
+      const expected = `{
+  - follow: false
+    host: hexlet.io
+  - proxy: 123.234.53.22
+  - timeout: 50
+  + timeout: 20
+  + verbose: true
+}`;
+
+      expect(result).toBe(expected);
+    });
+
+    it('should handle identical yaml files', () => {
+      const file1 = getFixturePath('file1.yml');
+
+      const result = genDiff(file1, file1);
+
+      const yaml = require('js-yaml');
+      const data = yaml.load(fs.readFileSync(file1, 'utf-8'));
+      const keys = Object.keys(data);
+
+      keys.forEach((key) => {
+        expect(result).toContain(`    ${key}: ${data[key]}`);
+      });
+
+      expect(result).not.toContain('  +');
+      expect(result).not.toContain('  -');
+    });
+
+    it('should compare json and yaml files', () => {
+      const file1 = getFixturePath('file1.json');
+      const file2 = getFixturePath('file2.yml');
+
+      const result = genDiff(file1, file2);
+
+      const expected = `{
+  - follow: false
+    host: hexlet.io
+  - proxy: 123.234.53.22
+  - timeout: 50
+  + timeout: 20
+  + verbose: true
+}`;
+
+      expect(result).toBe(expected);
+    });
   });
 
   it('should handle empty objects', () => {
@@ -99,5 +156,21 @@ describe('gendiff', () => {
 
     expect(result).not.toContain('  +');
     expect(result).not.toContain('  -');
+  });
+
+  it('should handle empty diff', () => {
+    const file1 = getFixturePath('file1.json');
+
+    const result = genDiff(file1, file1);
+
+    const data = JSON.parse(fs.readFileSync(file1, 'utf-8'));
+    const keys = Object.keys(data);
+
+    keys.forEach((key) => {
+      expect(result).toContain(`    ${key}: ${data[key]}`);
+    });
+
+    expect(result).not.toContain('  -');
+    expect(result).not.toContain('  +');
   });
 });
