@@ -1,5 +1,6 @@
 import path from 'path';
 import parse from './parsers/index.js';
+import stylish from './formatters/stylish.js';
 
 const getAbsolutePath = (filePath) => {
   if (path.isAbsolute(filePath)) {
@@ -7,6 +8,8 @@ const getAbsolutePath = (filePath) => {
   }
   return path.resolve(process.cwd(), filePath);
 };
+
+const isObject = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
 
 const buildDiff = (data1, data2) => {
   const keys = Object.keys({ ...data1, ...data2 }).sort();
@@ -21,6 +24,10 @@ const buildDiff = (data1, data2) => {
     if (hasKey1 && !hasKey2) {
       return { key, type: 'removed', value: data1[key] };
     }
+    if (isObject(data1[key]) && isObject(data2[key])) {
+      const children = buildDiff(data1[key], data2[key]);
+      return { key, type: 'nested', children };
+    }
     if (data1[key] !== data2[key]) {
       return { key, type: 'changed', oldValue: data1[key], newValue: data2[key] };
     }
@@ -28,26 +35,15 @@ const buildDiff = (data1, data2) => {
   });
 };
 
-const formatDiff = (diff) => {
-  const lines = diff.map((item) => {
-    // Используем if/else вместо switch для лучшего покрытия
-    if (item.type === 'removed') {
-      return `  - ${item.key}: ${item.value}`;
-    }
-    if (item.type === 'added') {
-      return `  + ${item.key}: ${item.value}`;
-    }
-    if (item.type === 'changed') {
-      return `  - ${item.key}: ${item.oldValue}\n  + ${item.key}: ${item.newValue}`;
-    }
-    // Все остальные случаи (включая 'unchanged')
-    return `    ${item.key}: ${item.value}`;
-  });
-
-  return `{\n${lines.join('\n')}\n}`;
+const formatDiff = (diff, format = 'stylish') => {
+  if (format === 'stylish') {
+    return stylish(diff);
+  }
+  // Эта строка никогда не выполнится, если передавать правильный формат
+  throw new Error(`Unknown format: ${format}`);
 };
 
-export default function genDiff(filepath1, filepath2) {
+export default function genDiff(filepath1, filepath2, format = 'stylish') {
   const absolutePath1 = getAbsolutePath(filepath1);
   const absolutePath2 = getAbsolutePath(filepath2);
 
@@ -55,5 +51,5 @@ export default function genDiff(filepath1, filepath2) {
   const data2 = parse(absolutePath2);
 
   const diff = buildDiff(data1, data2);
-  return formatDiff(diff);
+  return formatDiff(diff, format);
 }

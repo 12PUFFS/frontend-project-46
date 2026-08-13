@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
 describe('gendiff', () => {
-  describe('JSON files', () => {
+  describe('flat files', () => {
     it('should compare two flat json files', () => {
       const file1 = getFixturePath('file1.json');
       const file2 = getFixturePath('file2.json');
@@ -29,24 +29,6 @@ describe('gendiff', () => {
       expect(result).toBe(expected);
     });
 
-    it('should handle identical json files', () => {
-      const file1 = getFixturePath('file1.json');
-
-      const result = genDiff(file1, file1);
-
-      const data = JSON.parse(fs.readFileSync(file1, 'utf-8'));
-      const keys = Object.keys(data);
-
-      keys.forEach((key) => {
-        expect(result).toContain(`    ${key}: ${data[key]}`);
-      });
-
-      expect(result).not.toContain('  +');
-      expect(result).not.toContain('  -');
-    });
-  });
-
-  describe('YAML files', () => {
     it('should compare two flat yaml files', () => {
       const file1 = getFixturePath('file1.yml');
       const file2 = getFixturePath('file2.yml');
@@ -64,37 +46,58 @@ describe('gendiff', () => {
 
       expect(result).toBe(expected);
     });
+  });
 
-    it('should handle identical yaml files', () => {
-      const file1 = getFixturePath('file1.yml');
-
-      const result = genDiff(file1, file1);
-
-      const yaml = require('js-yaml');
-      const data = yaml.load(fs.readFileSync(file1, 'utf-8'));
-      const keys = Object.keys(data);
-
-      keys.forEach((key) => {
-        expect(result).toContain(`    ${key}: ${data[key]}`);
-      });
-
-      expect(result).not.toContain('  +');
-      expect(result).not.toContain('  -');
-    });
-
-    it('should compare json and yaml files', () => {
-      const file1 = getFixturePath('file1.json');
-      const file2 = getFixturePath('file2.yml');
+  describe('nested files', () => {
+    it('should compare nested json files', () => {
+      const file1 = getFixturePath('file1_nested.json');
+      const file2 = getFixturePath('file2_nested.json');
 
       const result = genDiff(file1, file2);
 
       const expected = `{
-  - follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-  - timeout: 50
-  + timeout: 20
-  + verbose: true
+    common: {
+      + follow: false
+        setting1: Value 1
+      - setting2: 200
+      - setting3: true
+      + setting3: null
+      + setting4: blah blah
+      + setting5: {
+            key5: value5
+        }
+        setting6: {
+            doge: {
+              - wow: 
+              + wow: so much
+            }
+            key: value
+          + ops: vops
+        }
+    }
+    group1: {
+      - baz: bas
+      + baz: bars
+        foo: bar
+      - nest: {
+            key: value
+        }
+      + nest: str
+    }
+  - group2: {
+        abc: 12345
+        deep: {
+            id: 45
+        }
+    }
+  + group3: {
+        deep: {
+            id: {
+                number: 45
+            }
+        }
+        fee: 100500
+    }
 }`;
 
       expect(result).toBe(expected);
@@ -172,5 +175,12 @@ describe('gendiff', () => {
 
     expect(result).not.toContain('  -');
     expect(result).not.toContain('  +');
+  });
+
+  it('should throw error for unknown format', () => {
+    const file1 = getFixturePath('file1.json');
+    const file2 = getFixturePath('file2.json');
+
+    expect(() => genDiff(file1, file2, 'unknown')).toThrow('Unknown format: unknown');
   });
 });
