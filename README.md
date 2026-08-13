@@ -5,7 +5,6 @@
 ### sonarcloud :
 
 [![Actions Status](https://github.com/12PUFFS/frontend-project-46/actions/workflows/test.yml/badge.svg)](https://github.com/12PUFFS/frontend-project-46/actions)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=12puffs-1_frontend-project-46&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=12puffs-1_frontend-project-46)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=12puffs-1_frontend-project-46&metric=coverage)](https://sonarcloud.io/summary/new_code?id=12puffs-1_frontend-project-46)
 
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=12puffs-1_frontend-project-46)](https://sonarcloud.io/summary/new_code?id=12puffs-1_frontend-project-46)
 CLI утилита для сравнения конфигурационных файлов.
