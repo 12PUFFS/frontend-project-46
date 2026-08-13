@@ -63,7 +63,7 @@ describe('gendiff', () => {
     }
 
     expect(() => genDiff(unsupportedFile, unsupportedFile)).toThrow(
-      'Unsupported file format: .txt'
+      'Unsupported file format: .txt',
     );
   });
 
@@ -84,31 +84,21 @@ describe('gendiff', () => {
     expect(result).not.toContain('  -');
   });
 
-  it('should work with relative paths from different directory', () => {
-    // Используем относительный путь
+  it('should work with relative paths', () => {
+    // Используем относительный путь относительно корня проекта
     const relativePath = '__fixtures__/file1.json';
     
-    // Сохраняем текущую директорию
-    const currentDir = process.cwd();
-    
-    // Меняем директорию на корень проекта
-    process.chdir(path.join(__dirname, '..'));
-    
-    try {
-      const result = genDiff(relativePath, relativePath);
-      
-      const data = JSON.parse(fs.readFileSync(relativePath, 'utf-8'));
-      const keys = Object.keys(data);
+    const result = genDiff(relativePath, relativePath);
 
-      keys.forEach((key) => {
-        expect(result).toContain(`    ${key}: ${data[key]}`);
-      });
+    const absolutePath = getFixturePath('file1.json');
+    const data = JSON.parse(fs.readFileSync(absolutePath, 'utf-8'));
+    const keys = Object.keys(data);
 
-      expect(result).not.toContain('  +');
-      expect(result).not.toContain('  -');
-    } finally {
-      // Возвращаемся обратно
-      process.chdir(currentDir);
-    }
+    keys.forEach((key) => {
+      expect(result).toContain(`    ${key}: ${data[key]}`);
+    });
+
+    expect(result).not.toContain('  +');
+    expect(result).not.toContain('  -');
   });
 });
