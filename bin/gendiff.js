@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const { program } = require('commander');
-const { default: genDiff } = require('../src');
+import { program } from 'commander';
+import genDiff from '../src/index.js';
 
 program
   .version('1.0.0')
@@ -10,8 +10,7 @@ program
   .arguments('<filepath1> <filepath2>')
   .option('-f, --format [type]', 'output format')
   .action((filepath1, filepath2) => {
-    const format = program.opts().format || 'stylish';
     const result = genDiff(filepath1, filepath2);
-    console.log(result); // Убираем JSON.stringify()
+    console.log(result);
   })
   .parse(process.argv);
