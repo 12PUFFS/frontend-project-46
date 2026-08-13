@@ -8,7 +8,7 @@ const formatValue = (value, depth = 0) => {
         : val;
       return `${indent}${key}: ${formattedVal}`;
     });
-    return '{\n' + lines.join('\n') + '\n' + '    '.repeat(depth) + '}';
+    return `{\n${lines.join('\n')}\n${'    '.repeat(depth)}}`;
   }
   return String(value);
 };
@@ -18,7 +18,6 @@ const stylish = (diff, depth = 0) => {
   const lines = diff.map((node) => {
     const spaces = '    '.repeat(depth);
 
-    // Используем if/else вместо switch для 100% покрытия
     if (node.type === 'added') {
       return `${spaces}  + ${node.key}: ${formatValue(node.value, depth + 1)}`;
     }
@@ -31,7 +30,6 @@ const stylish = (diff, depth = 0) => {
     if (node.type === 'nested') {
       return `${spaces}    ${node.key}: ${stylish(node.children, depth + 1)}`;
     }
-    // unchanged
     return `${spaces}    ${node.key}: ${formatValue(node.value, depth + 1)}`;
   });
 
