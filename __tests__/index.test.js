@@ -85,9 +85,8 @@ describe('gendiff', () => {
   });
 
   it('should work with relative paths', () => {
-    // Используем относительный путь относительно корня проекта
     const relativePath = '__fixtures__/file1.json';
-    
+
     const result = genDiff(relativePath, relativePath);
 
     const absolutePath = getFixturePath('file1.json');
