@@ -1,6 +1,6 @@
 import path from 'path';
 import parse from './parsers/index.js';
-import stylish from './formatters/stylish.js';
+import getFormatter from './formatters/index.js';
 
 const getAbsolutePath = (filePath) => {
   if (path.isAbsolute(filePath)) {
@@ -35,14 +35,6 @@ const buildDiff = (data1, data2) => {
   });
 };
 
-const formatDiff = (diff, format = 'stylish') => {
-  if (format === 'stylish') {
-    return stylish(diff);
-  }
-  // Эта строка никогда не выполнится, если передавать правильный формат
-  throw new Error(`Unknown format: ${format}`);
-};
-
 export default function genDiff(filepath1, filepath2, format = 'stylish') {
   const absolutePath1 = getAbsolutePath(filepath1);
   const absolutePath2 = getAbsolutePath(filepath2);
@@ -51,5 +43,5 @@ export default function genDiff(filepath1, filepath2, format = 'stylish') {
   const data2 = parse(absolutePath2);
 
   const diff = buildDiff(data1, data2);
-  return formatDiff(diff, format);
+  return getFormatter(diff, format);
 }
