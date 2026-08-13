@@ -12,6 +12,6 @@ program
   .action((filepath1, filepath2) => {
     const format = program.opts().format || 'stylish';
     const result = genDiff(filepath1, filepath2);
-    console.log(JSON.stringify(result, null, 2));
+    console.log(result); // Убираем JSON.stringify()
   })
   .parse(process.argv);
