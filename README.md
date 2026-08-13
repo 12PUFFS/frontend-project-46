@@ -4,4 +4,4 @@
 
 ### sonarcloud :
 
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=12puffs-1_frontend-project-46&metric=coverage)](https://sonarcloud.io/summary/new_code?id=12puffs-1_frontend-project-46)
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=12puffs-1_frontend-project-46)](https://sonarcloud.io/summary/new_code?id=12puffs-1_frontend-project-46)
