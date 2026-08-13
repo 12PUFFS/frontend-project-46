@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const { program } = require('commander');
+const { default: genDiff } = require('../src');
 
 program
   .version('1.0.0')
@@ -8,4 +9,9 @@ program
   .helpOption('-h, --help', 'display help for command')
   .arguments('<filepath1> <filepath2>')
   .option('-f, --format [type]', 'output format')
+  .action((filepath1, filepath2) => {
+    const format = program.opts().format || 'stylish';
+    const result = genDiff(filepath1, filepath2);
+    console.log(JSON.stringify(result, null, 2));
+  })
   .parse(process.argv);
